@@ -29,7 +29,7 @@
 ### Quickstart
 
 ```bash
-git clone https://github.com/ReverendLovetta/foundry-fund-me-cu
+git clone https://github.com/ReverendLovetta/foundry-fund-me.git
 cd foundry-fund-me-cu
 make
 ```
