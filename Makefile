@@ -24,7 +24,7 @@ test:; forge test
 
 snapshot:; forge snapshot
 
-format:; forge format
+format:; forge fmt
 
 coverage:; forge coverage
 

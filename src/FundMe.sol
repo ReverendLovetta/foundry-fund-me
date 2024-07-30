@@ -25,8 +25,7 @@ contract FundMe {
     // State variables
     uint256 public constant MINIMUM_USD = 5e18;
     address[] private s_funders;
-    mapping(address funder => uint256 amountFunded)
-        private s_addressToAmountFunded;
+    mapping(address funder => uint256 amountFunded) private s_addressToAmountFunded;
     address private immutable i_owner;
     AggregatorV3Interface private s_priceFeed;
 
@@ -47,10 +46,7 @@ contract FundMe {
 
     /// @notice Funds our contract based on the ETH/USD price
     function fund() public payable {
-        require(
-            msg.value.getConversionRate(s_priceFeed) > MINIMUM_USD,
-            "Didn't send enough ETH"
-        );
+        require(msg.value.getConversionRate(s_priceFeed) > MINIMUM_USD, "Didn't send enough ETH");
         s_funders.push(msg.sender);
         s_addressToAmountFunded[msg.sender] += msg.value;
     }
@@ -62,20 +58,14 @@ contract FundMe {
      */
     function withdraw() public onlyOwner {
         uint256 fundersLength = s_funders.length;
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < fundersLength;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < fundersLength; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
 
         s_funders = new address[](0);
 
-        (bool callSuccess, ) = payable(msg.sender).call{
-            value: address(this).balance
-        }("");
+        (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Withdraw failed");
     }
 
@@ -96,9 +86,7 @@ contract FundMe {
      * @param fundingAddress the address of the funder
      * @return the amount funded
      */
-    function getAddressToAmountFunded(
-        address fundingAddress
-    ) external view returns (uint256) {
+    function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
     }
 
